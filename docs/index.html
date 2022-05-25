@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to assignment_3’s documentation! &mdash; assignment_3 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> assignment_3
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to assignment_3’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#module-scripts.teleopNode">teleopNode Module</a></li>
+<li><a class="reference internal" href="#module-scripts.userInteractionNode">userInteractionNode Module</a></li>
+<li><a class="reference internal" href="#module-scripts.teleopContrNode">teleopContrNode Module</a></li>
+<li><a class="reference internal" href="#module-scripts.reachCoordinateNode">reachCoordinateNode Module</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">assignment_3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+      <li>Welcome to assignment_3’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="welcome-to-assignment-3-s-documentation">
+<h1>Welcome to assignment_3’s documentation!<a class="headerlink" href="#welcome-to-assignment-3-s-documentation" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+<div class="section" id="module-scripts.teleopNode">
+<span id="teleopnode-module"></span><h1>teleopNode Module<a class="headerlink" href="#module-scripts.teleopNode" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-teleopNode"></span><dl class="field-list simple">
+<dt class="field-odd">platform</dt>
+<dd class="field-odd"><p>Unix</p>
+</dd>
+<dt class="field-even">sypnosis</dt>
+<dd class="field-even"><p>Python module for running teleop keyboard without or with assistance</p>
+</dd>
+</dl>
+<p>ROS service node which takes the teleop request and either returns the teleop keyboard node withot or with assistance</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/keyboardService</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.teleopNode.teleop_handler">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopNode.</span></span><span class="sig-name descname"><span class="pre">teleop_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopNode.html#teleop_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopNode.teleop_handler" title="Permalink to this definition"></a></dt>
+<dd><p>This function is the callback function to the keyboardService.
+It takes in a request as an integer of either 1 or 0. Where 0 launches the teleop
+keyboard package, and 1 launches the same package with obstacle avoidance assistance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>req</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Either 0 or 1, which selects the teleop keyboard without assistance or with assistance respectively</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>0</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>error</strong> – An error which occurs when neither 0 or 1 is passed as the request</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.teleopNode.teleop_server">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopNode.</span></span><span class="sig-name descname"><span class="pre">teleop_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopNode.html#teleop_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopNode.teleop_server" title="Permalink to this definition"></a></dt>
+<dd><p>This function creates the Keyboard service server object</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.userInteractionNode">
+<span id="userinteractionnode-module"></span><h1>userInteractionNode Module<a class="headerlink" href="#module-scripts.userInteractionNode" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-userInteractionNode"></span><dl class="field-list simple">
+<dt class="field-odd">platform</dt>
+<dd class="field-odd"><p>Unix</p>
+</dd>
+<dt class="field-even">sypnosis</dt>
+<dd class="field-even"><p>Python module for user interation with assignment 3 package based off the terminal</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>ROS node which gives the user a series of choices for interaction with the assignment 3 package between</dt><dd><ul class="simple">
+<li><p>Option 1 (1): giving desried coordinates</p></li>
+<li><p>Option 2 (2): Manual Control without assistance</p></li>
+<li><p>Option 3 (3): Manual Control with assistance</p></li>
+<li><p>Option 0 (0): exit</p></li>
+</ul>
+</dd>
+<dt>Service:</dt><dd><p>/reachCoordinateSerivce
+/keyboardService</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.userInteractionNode.calluser">
+<span class="sig-prename descclassname"><span class="pre">scripts.userInteractionNode.</span></span><span class="sig-name descname"><span class="pre">calluser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/userInteractionNode.html#calluser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.userInteractionNode.calluser" title="Permalink to this definition"></a></dt>
+<dd><p>Function to prompt the user by giving options that can be selected for
+running the code. The selectable inputs vary from the numbers 0-3</p>
+<dl class="simple">
+<dt>Input:</dt><dd><p>user_input (int): Choices between options 0 through 3, with numbers 0-3 respectively.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>returns the input given by the user. For properfucntioning, should be between 0-3.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.userInteractionNode.opt1">
+<span class="sig-prename descclassname"><span class="pre">scripts.userInteractionNode.</span></span><span class="sig-name descname"><span class="pre">opt1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/userInteractionNode.html#opt1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.userInteractionNode.opt1" title="Permalink to this definition"></a></dt>
+<dd><p>Function that gets called when the user inputs 1, for option 1.
+This requests the user to input floats of a coordinante position in 2D space.
+A client object for the reachCoordinateService is created, and the coordinates
+are passed as a request, with the service responding with the final status of the
+robot - reached the point or not.</p>
+<dl class="simple">
+<dt>Input:</dt><dd><p>x (): Input coordinate for the x-axis.
+y (): Input coordinate for the y-axis.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The final status of the robot and goal is printed onto the screen. If the position has been reached or not.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Print</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.userInteractionNode.opt2">
+<span class="sig-prename descclassname"><span class="pre">scripts.userInteractionNode.</span></span><span class="sig-name descname"><span class="pre">opt2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/userInteractionNode.html#opt2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.userInteractionNode.opt2" title="Permalink to this definition"></a></dt>
+<dd><p>Function that gets called when the user inputs 2, for option 2.
+This creates a client object for the keyboardService and passes 0 as a request,
+which links to the teleop keyyboard without assistance.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.userInteractionNode.opt3">
+<span class="sig-prename descclassname"><span class="pre">scripts.userInteractionNode.</span></span><span class="sig-name descname"><span class="pre">opt3</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/userInteractionNode.html#opt3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.userInteractionNode.opt3" title="Permalink to this definition"></a></dt>
+<dd><p>Function that gets called when the user inputs 3, for option 3.
+This creates a client object for the keyboardService and passes 1 as a request,
+which links to the teleop keyboard with assistance.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.teleopContrNode">
+<span id="teleopcontrnode-module"></span><h1>teleopContrNode Module<a class="headerlink" href="#module-scripts.teleopContrNode" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-teleopContrNode"></span><dl class="field-list simple">
+<dt class="field-odd">platform</dt>
+<dd class="field-odd"><p>Unix</p>
+</dd>
+<dt class="field-even">sypnosis</dt>
+<dd class="field-even"><p>Python module for obstacne avoidance assistance for manual control with the teleop keyboard package</p>
+</dd>
+</dl>
+<p>ROS service node which takes the requested coordinates as a request for moving the robot to a specific position</p>
+<dl class="simple">
+<dt>Subscribers:</dt><dd><p>/remap_cmd_cal
+/scan</p>
+</dd>
+<dt>Publishers:</dt><dd><p>/cmd_vel</p>
+</dd>
+</dl>
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.angular">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">angular</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">x:</span> <span class="pre">0</span> <span class="pre">y:</span> <span class="pre">0</span> <span class="pre">z:</span> <span class="pre">0</span></em><a class="headerlink" href="#scripts.teleopContrNode.angular" title="Permalink to this definition"></a></dt>
+<dd><p>Varibale to hold vector of 3 dimensions for angular velocity</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.callback_remap">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">callback_remap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopContrNode.html#callback_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopContrNode.callback_remap" title="Permalink to this definition"></a></dt>
+<dd><p>This is a callback function called when the topic /remap_cmd_vel is subscribed to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>obj</em>) – Object of twist class containing robot parameters of linear and angular speeds in their corresponding x, y and z directions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.callback_scan">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">callback_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopContrNode.html#callback_scan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopContrNode.callback_scan" title="Permalink to this definition"></a></dt>
+<dd><p>This is a callback function called when the topic /scan is subscribed to.
+It creates a publisher object to publish to the /cmd_vel topic for controlling the robot movement, and determines
+whether the right, forward, or left directions are obstructed by a wall by using the compute_min_dist function
+to compare the distance of the sectors to a min_dist variable (0.5 in this case).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>obj</em>) – Instance of the Laser scan class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.compute_min_dist">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">compute_min_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ranges</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopContrNode.html#compute_min_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopContrNode.compute_min_dist" title="Permalink to this definition"></a></dt>
+<dd><p>This function uses the data gotten from the laser scanner attachment to compute the
+minimum distance observed indicating the presence of a wall in a certain direction.
+Where the direction within the range of 0 to 720 degrees is given as:
+- right (0-240)
+- forward (241-480)
+- left (481-721)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ranges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – List of 720 float values, of range values obtained from the LaserScan topic.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This is the shortest distance from the robot scanned by the laser scanner sensor.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>distance (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.keyboard_remap">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">keyboard_remap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/teleopContrNode.html#keyboard_remap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.teleopContrNode.keyboard_remap" title="Permalink to this definition"></a></dt>
+<dd><p>Function which creates subcribers to the /remap_cmd_vel and /scan topics</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.linear">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">linear</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">x:</span> <span class="pre">0</span> <span class="pre">y:</span> <span class="pre">0</span> <span class="pre">z:</span> <span class="pre">0</span></em><a class="headerlink" href="#scripts.teleopContrNode.linear" title="Permalink to this definition"></a></dt>
+<dd><p>Variable to hold vector of 3 dimensions for linear velocity</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.min_dist">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">min_dist</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.5</span></em><a class="headerlink" href="#scripts.teleopContrNode.min_dist" title="Permalink to this definition"></a></dt>
+<dd><p>Minimum distance variable to be compared to the output of the laser scan</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.repost">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">repost</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">linear:</span>&#160;&#160;&#160; <span class="pre">x:</span> <span class="pre">0</span>&#160;&#160; <span class="pre">y:</span> <span class="pre">0</span>&#160;&#160; <span class="pre">z:</span> <span class="pre">0</span> <span class="pre">angular:</span>&#160;&#160;&#160; <span class="pre">x:</span> <span class="pre">0</span>&#160;&#160; <span class="pre">y:</span> <span class="pre">0</span>&#160;&#160; <span class="pre">z:</span> <span class="pre">0</span></em><a class="headerlink" href="#scripts.teleopContrNode.repost" title="Permalink to this definition"></a></dt>
+<dd><p>Variable for repositioning the robot, with the dtyoe being a twist message with the linear and angular velocities as arguments.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="scripts.teleopContrNode.walls">
+<span class="sig-prename descclassname"><span class="pre">scripts.teleopContrNode.</span></span><span class="sig-name descname"><span class="pre">walls</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[False,</span> <span class="pre">False,</span> <span class="pre">False]</span></em><a class="headerlink" href="#scripts.teleopContrNode.walls" title="Permalink to this definition"></a></dt>
+<dd><p>List to determine if there is a wall present in three positions:
+- Right
+- Forward
+- Left, respectvely.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-scripts.reachCoordinateNode">
+<span id="reachcoordinatenode-module"></span><h1>reachCoordinateNode Module<a class="headerlink" href="#module-scripts.reachCoordinateNode" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-reachCoordinateNode"></span><dl class="field-list simple">
+<dt class="field-odd">platform</dt>
+<dd class="field-odd"><p>Unix</p>
+</dd>
+<dt class="field-even">sypnosis</dt>
+<dd class="field-even"><p>Python module for moving robot to required coordinates given by the user</p>
+</dd>
+</dl>
+<p>ROS service node which takes the requested coordinates as a request for moving the robot to a specific position</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/reachCoordinateService</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.reachCoordinateNode.reachCoordinate_handler">
+<span class="sig-prename descclassname"><span class="pre">scripts.reachCoordinateNode.</span></span><span class="sig-name descname"><span class="pre">reachCoordinate_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/reachCoordinateNode.html#reachCoordinate_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.reachCoordinateNode.reachCoordinate_handler" title="Permalink to this definition"></a></dt>
+<dd><p>This function is the callback function to the reachCoordinateService.
+It takes in a request in the form of cartesian coordinates and proceses
+the robot movement, returning either 0 or 1 for an incomplete or complete
+process respectively</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>req</strong> (<em>(</em><em>float64</em><em>, </em><em>float64</em><em>)</em>) – This is the requested coordinates with the respective axis x and y.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>0 if task not complete, 1 if task complete.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scripts.reachCoordinateNode.reachCoordinate_server">
+<span class="sig-prename descclassname"><span class="pre">scripts.reachCoordinateNode.</span></span><span class="sig-name descname"><span class="pre">reachCoordinate_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/scripts/reachCoordinateNode.html#reachCoordinate_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scripts.reachCoordinateNode.reachCoordinate_server" title="Permalink to this definition"></a></dt>
+<dd><p>Creates the reachCoordinateService service object</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Adedamola Sode, Carmine Recchiuto.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

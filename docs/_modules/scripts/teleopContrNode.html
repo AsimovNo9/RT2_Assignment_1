@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scripts.teleopContrNode &mdash; assignment_3 1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> assignment_3
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">assignment_3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>scripts.teleopContrNode</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scripts.teleopContrNode</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: teleopContrNode</span>
+
+<span class="sd">:platform: Unix</span>
+<span class="sd">:sypnosis: Python module for obstacne avoidance assistance for manual control with the teleop keyboard package</span>
+
+
+<span class="sd">.. moduleauthor:: Carmine Recchiuto &lt;carmine.recchiuto@dibris.unige.it&gt;</span>
+
+<span class="sd">ROS service node which takes the requested coordinates as a request for moving the robot to a specific position</span>
+
+<span class="sd">Subscribers:</span>
+<span class="sd">  /remap_cmd_cal</span>
+<span class="sd">  /scan </span>
+
+<span class="sd">Publishers:</span>
+<span class="sd">  /cmd_vel</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">geometry_msgs.msg</span> <span class="kn">import</span> <span class="n">Twist</span><span class="p">,</span> <span class="n">Vector3</span>
+<span class="kn">from</span> <span class="nn">sensor_msgs.msg</span> <span class="kn">import</span> <span class="n">LaserScan</span>
+
+<span class="n">walls</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">List to determine if there is a wall present in three positions:</span>
+<span class="sd">- Right</span>
+<span class="sd">- Forward</span>
+<span class="sd">- Left, respectvely.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">min_dist</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Minimum distance variable to be compared to the output of the laser scan</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">linear</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Variable to hold vector of 3 dimensions for linear velocity</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">angular</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Varibale to hold vector of 3 dimensions for angular velocity</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">repost</span> <span class="o">=</span> <span class="n">Twist</span><span class="p">(</span><span class="n">linear</span><span class="p">,</span> <span class="n">angular</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Variable for repositioning the robot, with the dtyoe being a twist message with the linear and angular velocities as arguments.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="compute_min_dist"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.compute_min_dist">[docs]</a><span class="k">def</span> <span class="nf">compute_min_dist</span><span class="p">(</span><span class="n">ranges</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">	This function uses the data gotten from the laser scanner attachment to compute the </span>
+<span class="sd">	minimum distance observed indicating the presence of a wall in a certain direction.</span>
+<span class="sd">	Where the direction within the range of 0 to 720 degrees is given as:</span>
+<span class="sd">	- right (0-240)</span>
+<span class="sd">	- forward (241-480)</span>
+<span class="sd">	- left (481-721)</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		ranges (list): List of 720 float values, of range values obtained from the LaserScan topic.</span>
+
+<span class="sd">	Returns:</span>
+<span class="sd">		distance (float): This is the shortest distance from the robot scanned by the laser scanner sensor.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">distance</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">subarrays</span> <span class="o">=</span> <span class="p">[</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">240</span><span class="p">],</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">241</span><span class="p">:</span><span class="mi">480</span><span class="p">],</span> <span class="n">ranges</span><span class="p">[</span><span class="mi">481</span><span class="p">:</span><span class="mi">721</span><span class="p">]</span> <span class="p">]</span>
+	<span class="n">distance</span> <span class="o">=</span> <span class="p">[</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">subarrays</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="p">]</span>
+	<span class="k">return</span> <span class="n">distance</span></div>
+        
+  
+<div class="viewcode-block" id="callback_scan"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.callback_scan">[docs]</a><span class="k">def</span> <span class="nf">callback_scan</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This is a callback function called when the topic /scan is subscribed to.</span>
+<span class="sd">	It creates a publisher object to publish to the /cmd_vel topic for controlling the robot movement, and determines</span>
+<span class="sd">	whether the right, forward, or left directions are obstructed by a wall by using the compute_min_dist function</span>
+<span class="sd">	to compare the distance of the sectors to a min_dist variable (0.5 in this case). </span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		data (obj): Instance of the Laser scan class.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">global</span> <span class="n">repost</span>
+	<span class="k">global</span> <span class="n">walls</span>
+	
+	<span class="n">pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;cmd_vel&#39;</span><span class="p">,</span><span class="n">Twist</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+	
+	<span class="n">ranges</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ranges</span>
+	<span class="n">distances</span> <span class="o">=</span> <span class="n">compute_min_dist</span><span class="p">(</span><span class="n">ranges</span><span class="p">)</span>
+	
+	<span class="n">walls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="n">distances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_dist</span> <span class="p">)</span>
+	<span class="n">walls</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="n">distances</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_dist</span> <span class="p">)</span>
+	<span class="n">walls</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span> <span class="n">distances</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">min_dist</span> <span class="p">)</span>
+	
+	<span class="k">if</span> <span class="n">walls</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+		<span class="k">if</span> <span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cannot turn right&quot;</span><span class="p">)</span>
+			<span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+					
+	<span class="k">if</span> <span class="n">walls</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+		<span class="k">if</span> <span class="n">repost</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">repost</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+	
+	<span class="k">if</span> <span class="n">walls</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+		<span class="k">if</span> <span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">repost</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span> 
+	
+	<span class="n">pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">repost</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="callback_remap"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.callback_remap">[docs]</a><span class="k">def</span> <span class="nf">callback_remap</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	This is a callback function called when the topic /remap_cmd_vel is subscribed to.</span>
+
+
+<span class="sd">	Args:</span>
+<span class="sd">		data (obj): Object of twist class containing robot parameters of linear and angular speeds in their corresponding x, y and z directions</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">global</span> <span class="n">repost</span>
+	<span class="n">repost</span> <span class="o">=</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="keyboard_remap"><a class="viewcode-back" href="../../index.html#scripts.teleopContrNode.keyboard_remap">[docs]</a><span class="k">def</span> <span class="nf">keyboard_remap</span><span class="p">():</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Function which creates subcribers to the /remap_cmd_vel and /scan topics</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s2">&quot;/remap_cmd_vel&quot;</span><span class="p">,</span> <span class="n">Twist</span><span class="p">,</span> <span class="n">callback_remap</span><span class="p">)</span>
+	<span class="n">rospy</span><span class="o">.</span><span class="n">Subscriber</span><span class="p">(</span><span class="s2">&quot;/scan&quot;</span><span class="p">,</span> <span class="n">LaserScan</span><span class="p">,</span> <span class="n">callback_scan</span><span class="p">)</span>
+	<span class="n">rospy</span><span class="o">.</span><span class="n">spin</span><span class="p">()</span></div>
+    
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;keyboard_remap_node&#39;</span><span class="p">)</span>
+	<span class="n">keyboard_remap</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Adedamola Sode, Carmine Recchiuto.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
