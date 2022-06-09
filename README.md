@@ -32,7 +32,11 @@ roslaunch final_assignment move_base.launch
 roslaunch assignment_3 main.launch
 ```
 
-## Documentation Link
+## Assignment 1: Documentation Link
 <a href= "https://asimovno9.github.io/RT2_Assignment_1/">Documentation Link!</a>
+
+## Assignment 2: Jupyter Links
+- <a href= "https://github.com/AsimovNo9/RT2_Assignment_1/blob/main/scripts/UserInterfaceJupyter.ipynb">User Interface for Jupyter!</a>
+- <a href= "https://github.com/AsimovNo9/RT2_Assignment_1/blob/main/scripts/showclosestobstacle.ipynb">Using Laser scan data to print position: Jupyter!</a>
 
 
