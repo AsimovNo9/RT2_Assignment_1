@@ -42,6 +42,6 @@ roslaunch assignment_3 main.launch
 <img src="/images/UI.png" alt="UI" width="" height="">
 
 ## Assignment 3: Statistical Analysis
-<a href= "https://asimovno9.github.io/RT2_Assignment_1/tree/main/statistics/Statistical_analysis.pdf">Statistical Analysis Link!</a>
+<a href= "https://github.com/AsimovNo9/RT2_Assignment_1/blob/main/statistics/Statistical_analysis.pdf">Statistical Analysis Link!</a>
 
 
